@@ -1,1 +1,0 @@
-# om.etendoerp.subapp.docsmanager
