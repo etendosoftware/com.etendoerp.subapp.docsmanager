@@ -1,4 +1,4 @@
-import {Dimensions, PixelRatio} from 'react-native';
+import { Dimensions, PixelRatio } from 'react-native';
 
 // getting screen width and height
 const width = Dimensions.get('screen').width;
@@ -22,6 +22,11 @@ const isTabletDevice = () => {
       pixelDensity === 2 && (adjustedWidth >= 1920 || adjustedHeight >= 1920)
     );
   }
+};
+
+// Clean file name from unwanted characters
+export const cleanFileName = (fileName: string) => {
+  return fileName.replace(/[-_][A-Z0-9]{8,}.*?\./, '.');
 };
 
 export const isTablet = isTabletDevice();

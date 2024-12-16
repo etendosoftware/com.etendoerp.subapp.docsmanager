@@ -14,6 +14,7 @@ import RNFS from 'react-native-fs';
 import { HomeProps, IFile } from '../../interfaces';
 import { styles } from './styles';
 import { Button } from 'etendo-ui-library';
+import { cleanFileName } from '../../utils';
 
 const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
   const [audioPlayer, setAudioPlayer] = useState<Sound | null>(null);
@@ -171,7 +172,7 @@ const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
           />
         ) : (
           <View style={styles.fileContainer}>
-            <Text style={styles.fileName}>{sharedFiles[0].fileName}</Text>
+            <Text style={styles.fileName}>{cleanFileName(sharedFiles[0].fileName)}</Text>
             {renderFileContent(sharedFiles[0])}
           </View>
         )

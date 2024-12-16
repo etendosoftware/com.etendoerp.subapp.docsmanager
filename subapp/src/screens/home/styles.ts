@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     marginBottom: 16,
-    color: TRANSPARENT_NEUTRAL_30,
+    color: NEUTRAL_100,
   },
   pdf: {
     flex: 1,
