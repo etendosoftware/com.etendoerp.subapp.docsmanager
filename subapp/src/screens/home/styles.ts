@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { NEUTRAL_0, TRANSPARENT_NEUTRAL_30 } from '../../styles/colors';
+import { NEUTRAL_0, NEUTRAL_100, TRANSPARENT_NEUTRAL_30 } from '../../styles/colors';
 
 const { width } = Dimensions.get('window');
 
@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
   },
   textContent: {
     fontSize: 16,
-    color: TRANSPARENT_NEUTRAL_30,
+    color: NEUTRAL_100,
   },
   unsupportedContainer: {
     flex: 1,
@@ -95,6 +95,6 @@ export const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: TRANSPARENT_NEUTRAL_30,
+    color: NEUTRAL_100,
   },
 });
