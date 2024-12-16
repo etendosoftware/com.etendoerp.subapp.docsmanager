@@ -80,4 +80,12 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     color: TRANSPARENT_NEUTRAL_30,
   },
+  fileItem: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: NEUTRAL_0,
+  },
+  fileItemText: {
+    fontSize: 16,
+  }
 });

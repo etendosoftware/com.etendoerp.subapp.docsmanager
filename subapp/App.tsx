@@ -43,4 +43,5 @@ const App: React.FC<AppProps> = ({
   );
 };
 
+export { App };
 export default App;

@@ -26,7 +26,7 @@ export const generalStyles = StyleSheet.create({
     width: 24,
     height: 24,
   },
-  iconCamera:{
+  iconCamera: {
     width: 22,
     height: 22,
   }

@@ -5,44 +5,59 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import Pdf from 'react-native-pdf';
 import Sound from 'react-native-sound';
 import RNFS from 'react-native-fs';
 
-import { styles } from '../../styles/styles';
 import { HomeProps, IFile } from '../../interfaces';
+import { styles } from './styles';
+import { Button } from 'etendo-ui-library';
 
 const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
   const [audioPlayer, setAudioPlayer] = useState<Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [textContent, setTextContent] = useState<string>('');
+  const [selectedFile, setSelectedFile] = useState<IFile | null>(null);
+
+  useEffect(() => {
+    if (sharedFiles && sharedFiles.length > 0) {
+      if (sharedFiles.length === 1) {
+        setSelectedFile(sharedFiles[0]);
+      } else {
+        setSelectedFile(null);
+      }
+    }
+  }, [sharedFiles]);
 
   useEffect(() => {
     let sound: Sound | null = null;
+
+    setAudioPlayer(null);
+    setIsPlaying(false);
+    setTextContent('');
 
     const readTextFile = async (filePath: string) => {
       try {
         const content = await RNFS.readFile(filePath, 'utf8');
         setTextContent(content);
       } catch (error) {
-        console.error('Error reading text file::', error);
+        console.error('Error reading text file:', error);
       }
     };
 
-    if (sharedFiles && sharedFiles.length > 0) {
-      sharedFiles.forEach(file => {
-        if (file.fileMimeType.startsWith('text/')) {
-          readTextFile(file.filePath);
-        } else if (file.fileMimeType.startsWith('audio/')) {
-          sound = new Sound(file.filePath, '', error => {
-            if (error) {
-              console.error('Error loading sound:', error);
-            }
-          });
-          setAudioPlayer(sound);
-        }
-      });
+    if (selectedFile) {
+      if (selectedFile.fileMimeType.startsWith('text/')) {
+        readTextFile(selectedFile.filePath);
+      } else if (selectedFile.fileMimeType.startsWith('audio/')) {
+        sound = new Sound(selectedFile.filePath, '', error => {
+          if (error) {
+            console.error('Error loading sound:', error);
+          }
+        });
+        setAudioPlayer(sound);
+      }
     }
 
     return () => {
@@ -50,7 +65,7 @@ const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
         sound.release();
       }
     };
-  }, [sharedFiles]);
+  }, [selectedFile]);
 
   const toggleAudioPlayback = useCallback(() => {
     if (audioPlayer) {
@@ -68,6 +83,10 @@ const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
       }
     }
   }, [audioPlayer, isPlaying]);
+
+  const handleFileSelect = (file: IFile) => {
+    setSelectedFile(file);
+  };
 
   const renderFileContent = (file: IFile) => {
     switch (true) {
@@ -92,14 +111,11 @@ const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
       case file.fileMimeType.startsWith('audio/'):
         return (
           <View style={styles.audioContainer}>
-            <TouchableOpacity
-              style={styles.audioButton}
+            <Button
+              typeStyle={'terciary'}
+              text={isPlaying ? 'Pause Audio' : 'Play Audio'}
               onPress={toggleAudioPlayback}
-            >
-              <Text style={styles.audioButtonText}>
-                {isPlaying ? 'Pause Audio' : 'Play Audio'}
-              </Text>
-            </TouchableOpacity>
+            />
           </View>
         );
       case file.fileMimeType.startsWith('text/'):
@@ -112,25 +128,56 @@ const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
         return (
           <View style={styles.unsupportedContainer}>
             <Text style={styles.unsupportedText}>
-              File type not directly supported.
+              File type not supported.
             </Text>
           </View>
         );
     }
   };
 
+  const renderFileItem = ({ item }: { item: IFile }) => (
+    <TouchableOpacity
+      style={styles.fileItem}
+      onPress={() => handleFileSelect(item)}
+    >
+      <Text style={styles.fileItemText}>{item.fileName}</Text>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Shared Files</Text>
+      </View>
+
       {sharedFiles && sharedFiles.length > 0 ? (
-        sharedFiles.map((file, index) => (
-          <View key={index} style={styles.fileContainer}>
-            <Text style={styles.fileName}>{file.fileName}</Text>
-            {renderFileContent(file)}
+        selectedFile && sharedFiles.length > 1 ? (
+          <View style={styles.fileContainer}>
+            <Button
+              typeStyle={'terciary'}
+              text={'Go back'}
+              onPress={() => setSelectedFile(null)}
+            />
+            <Text style={styles.fileName}>{selectedFile.fileName}</Text>
+            {renderFileContent(selectedFile)}
           </View>
-        ))
+        ) : sharedFiles.length > 1 ? (
+          <FlatList
+            data={sharedFiles}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderFileItem}
+            contentContainerStyle={{ paddingBottom: 16 }}
+          />
+        ) : (
+          <View style={styles.fileContainer}>
+            <Text style={styles.fileName}>{sharedFiles[0].fileName}</Text>
+            {renderFileContent(sharedFiles[0])}
+          </View>
+        )
       ) : (
         <View style={styles.noFileContainer}>
-          <Text style={styles.noFileText}>There are no shared files.</Text>
+          <Text style={styles.noFileText}>No files uploaded.</Text>
         </View>
       )}
     </View>
