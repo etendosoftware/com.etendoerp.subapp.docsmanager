@@ -1,4 +1,4 @@
 {
    "outputPath": "../web/com.etendoerp.subapp.docsmanager",
-   "bundleFileName": "etendoDocumentsManager.js"
+   "bundleFileName": "dist.js"
 }

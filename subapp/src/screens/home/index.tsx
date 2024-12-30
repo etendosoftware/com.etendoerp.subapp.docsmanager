@@ -11,9 +11,10 @@ import Pdf from 'react-native-pdf';
 import Sound from 'react-native-sound';
 import RNFS from 'react-native-fs';
 
-import { HomeProps, IFile } from '../../interfaces';
 import { styles } from './styles';
-import { Button } from 'etendo-ui-library';
+import { cleanFileName } from '../../utils';
+import { HomeProps, IFile } from '../../interfaces';
+import { ArrowLeftIcon, Button } from 'etendo-ui-library';
 
 const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
   const [audioPlayer, setAudioPlayer] = useState<Sound | null>(null);
@@ -112,7 +113,7 @@ const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
         return (
           <View style={styles.audioContainer}>
             <Button
-              typeStyle={'terciary'}
+              typeStyle='terciary'
               text={isPlaying ? 'Pause Audio' : 'Play Audio'}
               onPress={toggleAudioPlayback}
             />
@@ -149,16 +150,17 @@ const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Shared Files</Text>
+        <Button
+          typeStyle='terciary'
+          text='Go back'
+          onPress={() => { setSelectedFile(null); navigationContainer.navigate('Home'); }}
+          iconLeft={<ArrowLeftIcon />}
+        />
       </View>
 
       {sharedFiles && sharedFiles.length > 0 ? (
         selectedFile && sharedFiles.length > 1 ? (
           <View style={styles.fileContainer}>
-            <Button
-              typeStyle={'terciary'}
-              text={'Go back'}
-              onPress={() => setSelectedFile(null)}
-            />
             <Text style={styles.fileName}>{selectedFile.fileName}</Text>
             {renderFileContent(selectedFile)}
           </View>
@@ -171,7 +173,7 @@ const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
           />
         ) : (
           <View style={styles.fileContainer}>
-            <Text style={styles.fileName}>{sharedFiles[0].fileName}</Text>
+            <Text style={styles.fileName}>{cleanFileName(sharedFiles[0].fileName)}</Text>
             {renderFileContent(sharedFiles[0])}
           </View>
         )

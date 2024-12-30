@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { ETENDO_PRIMARY_DARK, NEUTRAL_0, TRANSPARENT_NEUTRAL_30 } from "./colors";
+import { ETENDO_PRIMARY_DARK, NEUTRAL_0, NEUTRAL_100 } from "./colors";
 
 export const styles = StyleSheet.create({
   container: {
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 12,
-    color: TRANSPARENT_NEUTRAL_30,
+    color: NEUTRAL_100,
   },
   pdf: {
     flex: 1,
@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
   textContent: {
     fontSize: 16,
     lineHeight: 24,
-    color: TRANSPARENT_NEUTRAL_30,
+    color: NEUTRAL_100,
   },
   unsupportedContainer: {
     flex: 1,
@@ -78,7 +78,7 @@ export const styles = StyleSheet.create({
   },
   noFileText: {
     fontSize: 18,
-    color: TRANSPARENT_NEUTRAL_30,
+    color: NEUTRAL_100,
   },
   fileItem: {
     padding: 15,
