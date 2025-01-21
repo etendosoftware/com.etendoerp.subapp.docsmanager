@@ -10,7 +10,6 @@ module.exports = {
     "/themes/",
     "/interfaces/",
     "/assets/",
-    "index\\.(ts|tsx)$",
     "\\.d\\.ts$",
     "types\\.(ts|tsx)$",
     "\\.test\\.(ts|tsx)$",
