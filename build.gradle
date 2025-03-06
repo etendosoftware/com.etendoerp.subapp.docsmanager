@@ -1,0 +1,50 @@
+/**
+*   This file was generated automatically by the 'createModuleBuild' task.
+*   Created at: 2025-03-06T15:23:52.734388Z.
+*
+*   WARNING: Do not put your credentials directly in this file.
+*
+*/
+
+group          = "com.etendoerp"
+version        = "1.0.0"
+description    = "A sub-application for Etendo Mobile that facilitates document management and sharing through React Native Share Intent."
+ext.artifact   = "subapp.docsmanager"
+ext.repository = "https://maven.pkg.github.com/etendosoftware/com.etendoerp.mobile.extensions"
+
+configurations {
+    moduleDependencyContainer
+}
+
+publishing {
+    publications {
+        "com.etendoerp.subapp.docsmanager"(MavenPublication) {
+            from components.java
+            groupId    = group
+            artifactId = artifact
+            version    = version
+        }
+    }
+    repositories {
+        maven {
+            url "https://maven.pkg.github.com/etendosoftware/com.etendoerp.mobile.extensions"
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://maven.pkg.github.com/etendosoftware/com.etendoerp.mobile.extensions"
+    }
+}
+
+/**
+* Declare Java dependencies using 'implementation'
+* Ex: implementation "com.sun.mail:javax.mail:1.6.2"
+*/
+dependencies {
+    implementation('com.etendoerp:dynamic.app:1.7.0')
+
+    implementation('com.etendoerp.platform:etendo-core:[22.1.0, 25.1.0)')
+}
