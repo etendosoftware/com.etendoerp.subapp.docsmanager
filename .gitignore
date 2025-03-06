@@ -67,3 +67,6 @@ yarn-error.log
 build/
 !build/classes/
 etendo.artifact.properties
+build/
+!build/classes/
+etendo.artifact.properties
