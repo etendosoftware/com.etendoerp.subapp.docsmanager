@@ -10,7 +10,6 @@ import {
 import Pdf from 'react-native-pdf';
 import Sound from 'react-native-sound';
 import RNFS from 'react-native-fs';
-
 import { styles } from './styles';
 import { cleanFileName } from '../../utils';
 import { HomeProps, IFile } from '../../interfaces';
@@ -22,16 +21,14 @@ const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
   const [textContent, setTextContent] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState<IFile | null>(null);
 
+  // Set initial selected file based on sharedFiles
   useEffect(() => {
     if (sharedFiles && sharedFiles.length > 0) {
-      if (sharedFiles.length === 1) {
-        setSelectedFile(sharedFiles[0]);
-      } else {
-        setSelectedFile(null);
-      }
+      setSelectedFile(sharedFiles.length === 1 ? sharedFiles[0] : null);
     }
   }, [sharedFiles]);
 
+  // Handle file content loading and cleanup
   useEffect(() => {
     let sound: Sound | null = null;
 
@@ -62,9 +59,7 @@ const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
     }
 
     return () => {
-      if (sound) {
-        sound.release();
-      }
+      if (sound) sound.release();
     };
   }, [selectedFile]);
 
@@ -75,10 +70,8 @@ const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
         setIsPlaying(false);
       } else {
         audioPlayer.play(success => {
-          if (!success) {
-            console.error('Error in playback');
-          }
           setIsPlaying(false);
+          if (!success) console.error('Error in playback');
         });
         setIsPlaying(true);
       }
@@ -96,9 +89,7 @@ const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
           <Pdf
             source={{ uri: file.filePath }}
             style={styles.pdf}
-            onError={error => {
-              console.error(error);
-            }}
+            onError={error => console.error(error)}
           />
         );
       case file.fileMimeType.startsWith('image/'):
@@ -128,22 +119,25 @@ const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
       default:
         return (
           <View style={styles.unsupportedContainer}>
-            <Text style={styles.unsupportedText}>
-              File type not supported.
-            </Text>
+            <Text style={styles.unsupportedText}>File type not supported.</Text>
           </View>
         );
     }
   };
 
   const renderFileItem = ({ item }: { item: IFile }) => (
-    <TouchableOpacity
-      style={styles.fileItem}
-      onPress={() => handleFileSelect(item)}
-    >
+    <TouchableOpacity style={styles.fileItem} onPress={() => handleFileSelect(item)}>
       <Text style={styles.fileItemText}>{item.fileName}</Text>
     </TouchableOpacity>
   );
+
+  const handleGoBack = () => {
+    if (selectedFile && sharedFiles?.length > 1) {
+      setSelectedFile(null);
+    } else {
+      navigationContainer.goBack();
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -153,7 +147,7 @@ const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
         <Button
           typeStyle='terciary'
           text='Go back'
-          onPress={() => { setSelectedFile(null); navigationContainer.navigate('Home'); }}
+          onPress={handleGoBack}
           iconLeft={<ArrowLeftIcon />}
         />
       </View>
@@ -167,7 +161,7 @@ const Home: React.FC<HomeProps> = ({ navigationContainer, sharedFiles }) => {
         ) : sharedFiles.length > 1 ? (
           <FlatList
             data={sharedFiles}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(_, index) => index.toString()}
             renderItem={renderFileItem}
             contentContainerStyle={{ paddingBottom: 16 }}
           />
