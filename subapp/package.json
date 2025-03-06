@@ -1,12 +1,12 @@
 {
-  "name": "ComEtendoRxSubappBase",
+  "name": "com.etendoerp.subapp.docsmanager",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "eslint .",
     "dev": "nodemon",
     "dev-server": "node start-server.js",
@@ -49,6 +49,7 @@
     "@rollup/plugin-image": "^3.0.2",
     "@rollup/plugin-json": "^5.0.2",
     "@rollup/plugin-typescript": "^11.1.2",
+    "@testing-library/react-native": "12.1.2",
     "@tsconfig/react-native": "^3.0.2",
     "@types/i18n-js": "^3.8.5",
     "@types/jest": "^29.5.5",
@@ -57,10 +58,10 @@
     "@types/react-test-renderer": "^18.0.2",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
-    "babel-jest": "^26.6.3",
+    "babel-jest": "^29.7.0",
     "eslint": "^7.32.0",
     "http-server": "^14.1.1",
-    "jest": "^26.6.3",
+    "jest": "^29.2.1",
     "metro-react-native-babel-preset": "0.72.3",
     "nodemon": "^3.1.4",
     "react-test-renderer": "18.1.0",
@@ -68,7 +69,5 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "typescript": "^5.2.2"
   },
-  "jest": {
-    "preset": "react-native"
-  }
+  "packageManager": "yarn@1.22.22"
 }
