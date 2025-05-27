@@ -7,7 +7,7 @@
 */
 
 group          = "com.etendoerp"
-version        = "1.2.0"
+version        = "2.0.0"
 description    = "A sub-application for Etendo Mobile that facilitates document management and sharing through React Native Share Intent."
 ext.artifact   = "subapp.docsmanager"
 ext.repository = "https://maven.pkg.github.com/etendosoftware/com.etendoerp.mobile.extensions"
