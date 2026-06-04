@@ -10,7 +10,7 @@ group          = "com.etendoerp"
 version        = "3.0.0"
 description    = "A sub-application for Etendo Mobile that facilitates document management and sharing through React Native Share Intent."
 ext.artifact   = "subapp.docsmanager"
-ext.repository = "https://maven.pkg.github.com/etendosoftware/com.etendoerp.mobile.extensions"
+ext.repository = "https://repo.futit.cloud/repository/maven-snapshots"
 
 configurations {
     moduleDependencyContainer
@@ -27,7 +27,7 @@ publishing {
     }
     repositories {
         maven {
-            url "https://maven.pkg.github.com/etendosoftware/com.etendoerp.mobile.extensions"
+            url "https://repo.futit.cloud/repository/maven-snapshots"
         }
     }
 }
@@ -35,7 +35,7 @@ publishing {
 repositories {
     mavenCentral()
     maven {
-        url "https://maven.pkg.github.com/etendosoftware/com.etendoerp.mobile.extensions"
+        url "https://repo.futit.cloud/repository/maven-snapshots"
     }
 }
 
@@ -44,7 +44,7 @@ repositories {
 * Ex: implementation "com.sun.mail:javax.mail:1.6.2"
 */
 dependencies {
-    implementation('com.etendoerp:dynamic.app:3.0.0')
+    implementation('com.etendoerp:dynamic.app:3.0.0-SNAPSHOT')
 
-    implementation('com.etendoerp.platform:etendo-core:[26.1.0,26.2.0)')
+    implementation('com.etendoerp.platform:etendo-core:[27.1.0,27.2.0)')
 }
